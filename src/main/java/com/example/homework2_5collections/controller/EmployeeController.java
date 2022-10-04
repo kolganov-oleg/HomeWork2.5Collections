@@ -1,55 +1,41 @@
 package com.example.homework2_5collections.controller;
 
-import com.example.homework2_5collections.service.CalculatorService;
+import com.example.homework2_5collections.model.Employee;
+import com.example.homework2_5collections.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
+
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/calculator/")
+@RequestMapping("/employee")
 public class EmployeeController {
-    private final CalculatorService calculatorService;
+    private final EmployeeService service;
+
+    public EmployeeController(EmployeeService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/add")
+    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+        return service.add(firstName, lastName);
+    }
+
+    @GetMapping("/remove")
+    public Employee removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+        return service.remove(firstName, lastName);
+    }
+
+    @GetMapping("/find")
+    public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+        return service.find(firstName, lastName);
+    }
 
     @GetMapping
-    public String welcome(){
-        return "Добро пожаловать в калькулятор";
+    public Collection<Employee> findAll() {
+        return service.findAll();
     }
-
-    @GetMapping("/plus")
-    public String plus(@RequestParam(name = "num1", required = false) Integer a, @RequestParam(name = "num2", required = false) Integer b) {
-        if (a==null || b==null) return "Пустое поле запроса";
-        int plus = calculatorService.plus(a, b);
-        return a + " + " + b + " = " + plus;
-    }
-
-    @GetMapping("/minus")
-    public String minus(@RequestParam(name = "num1", required = false) Integer a, @RequestParam(name = "num2", required = false) Integer b) {
-        if (a==null || b==null) return "Пустое поле запроса";
-        int minus = calculatorService.minus(a, b);
-        return a + " - " + b + " = " + minus;
-    }
-
-    @GetMapping("/multiple")
-    public String multiple(@RequestParam(name = "num1", required = false) Integer a, @RequestParam(name = "num2", required = false) Integer b) {
-        if (a==null || b==null) return "Пустое поле запроса";
-        int multiple = calculatorService.multiple(a, b);
-        return a + " * " + b + " = " + multiple;
-    }
-
-    @GetMapping("/divide")
-    public String divide(@RequestParam(name = "num1", required = false) Integer a, @RequestParam(name = "num2", required = false) Integer b) {
-        if (a==null || b==null) return "Пустое поле запроса";
-        double divide;
-        try {
-         divide = calculatorService.divide(a, b);
-        } catch (Throwable e) {
-            return e.getMessage();
-        }
-
-        return a + " / " + b + " = " + divide;
-    }
-
 }
