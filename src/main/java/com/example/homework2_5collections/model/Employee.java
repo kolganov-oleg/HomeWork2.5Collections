@@ -1,53 +1,46 @@
 package com.example.homework2_5collections.model;
 
-public class Employee {
-    private final int id;
-    private String fullName;
-    private int department;
-    private double salary;
-    private static int counter;
+import java.util.Objects;
 
-    public Employee(String fullName, int department, double salary) {
-        this.fullName = fullName;
-        this.department = department;
-        this.salary = salary;
-        id = ++counter;
+public class Employee {
+    private final String firstName;
+    private final String lastName;
+
+    public Employee(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return firstName.equals(employee.firstName) && lastName.equals(employee.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
     }
 
     @Override
     public String toString() {
-        return "Работник " +
-                " id = " + id +
-                ", fullName = '" + fullName + '\'' +
-                ", department = " + department +
-                ", salary = " + salary;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public int getDepartment() {
-        return department;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void setDepartment(int department) {
-        this.department = department;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }
+
