@@ -2,40 +2,67 @@ package com.example.homework2_5collections.controller;
 
 import com.example.homework2_5collections.model.Employee;
 import com.example.homework2_5collections.service.EmployeeService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
-    private final EmployeeService service;
-
-    public EmployeeController(EmployeeService service) {
-        this.service = service;
+    private final EmployeeService employeeService;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+    @GetMapping(path = "/add")
+    public Object addEmployee(
+            @RequestParam(value = "firstName") String firstName,
+            @RequestParam(value = "lastName") String lastName,
+            @RequestParam(value = "salary") int salary,
+            @RequestParam(value = "department") int departmentId) {
+        Employee employee = null;
+        try {
+            employee = employeeService.addEmployee(firstName, lastName, salary, departmentId);
+        } catch (Throwable e) {
+            return e.getMessage();
+        }
+        return employee;
+    }
+    @GetMapping(path = "/remove")
+    public Object removeEmployee(
+            @RequestParam(value = "firstName") String firstName,
+            @RequestParam(value = "lastName") String lastName) {
+        Employee employee = null;
+        try {
+            employee = employeeService.removeEmployee(firstName, lastName);
+        } catch (Throwable e) {
+            return e.getMessage();
+        }
+        return employee;
+    }
+    @GetMapping(path = "/find")
+    public Object findEmployee(
+            @RequestParam(value = "firstName") String firstName,
+            @RequestParam(value = "lastName") String lastName) {
+        Employee employee = null;
+        try {
+            employee = employeeService.findEmployee(firstName, lastName);
+        } catch (Throwable e) {
+            return e.getMessage();
+        }
+        return employee;
     }
 
-    @GetMapping("/add")
-    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        return service.add(firstName, lastName);
-    }
-
-    @GetMapping("/remove")
-    public Employee removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        return service.remove(firstName, lastName);
-    }
-
-    @GetMapping("/find")
-    public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        return service.find(firstName, lastName);
-    }
-
-    @GetMapping
-    public Collection<Employee> findAll() {
-        return service.findAll();
+    @GetMapping(path = "/print")
+    public Object printEmployees() {
+        List<Employee> employees = null;
+        try {
+            employees = employeeService.getEmployees();
+        } catch (Throwable e) {
+            return e.getMessage();
+        }
+        return employees;
     }
 }

@@ -1,5 +1,4 @@
 package com.example.homework2_5collections.exception;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -20,7 +19,5 @@ public class EmployeeNotFoundException extends RuntimeException {
         super(cause);
     }
 
-    public EmployeeNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+
 }
