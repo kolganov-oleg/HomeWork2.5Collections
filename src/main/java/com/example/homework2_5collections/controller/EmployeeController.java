@@ -1,55 +1,68 @@
 package com.example.homework2_5collections.controller;
 
-import com.example.homework2_5collections.service.CalculatorService;
-import lombok.RequiredArgsConstructor;
+import com.example.homework2_5collections.model.Employee;
+import com.example.homework2_5collections.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/calculator/")
+@RequestMapping("/employee")
 public class EmployeeController {
-    private final CalculatorService calculatorService;
-
-    @GetMapping
-    public String welcome(){
-        return "Добро пожаловать в калькулятор";
+    private final EmployeeService employeeService;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
-
-    @GetMapping("/plus")
-    public String plus(@RequestParam(name = "num1", required = false) Integer a, @RequestParam(name = "num2", required = false) Integer b) {
-        if (a==null || b==null) return "Пустое поле запроса";
-        int plus = calculatorService.plus(a, b);
-        return a + " + " + b + " = " + plus;
-    }
-
-    @GetMapping("/minus")
-    public String minus(@RequestParam(name = "num1", required = false) Integer a, @RequestParam(name = "num2", required = false) Integer b) {
-        if (a==null || b==null) return "Пустое поле запроса";
-        int minus = calculatorService.minus(a, b);
-        return a + " - " + b + " = " + minus;
-    }
-
-    @GetMapping("/multiple")
-    public String multiple(@RequestParam(name = "num1", required = false) Integer a, @RequestParam(name = "num2", required = false) Integer b) {
-        if (a==null || b==null) return "Пустое поле запроса";
-        int multiple = calculatorService.multiple(a, b);
-        return a + " * " + b + " = " + multiple;
-    }
-
-    @GetMapping("/divide")
-    public String divide(@RequestParam(name = "num1", required = false) Integer a, @RequestParam(name = "num2", required = false) Integer b) {
-        if (a==null || b==null) return "Пустое поле запроса";
-        double divide;
+    @GetMapping(path = "/add")
+    public Object addEmployee(
+            @RequestParam(value = "firstName") String firstName,
+            @RequestParam(value = "lastName") String lastName,
+            @RequestParam(value = "salary") int salary,
+            @RequestParam(value = "department") int departmentId) {
+        Employee employee = null;
         try {
-         divide = calculatorService.divide(a, b);
+            employee = employeeService.addEmployee(firstName, lastName, salary, departmentId);
         } catch (Throwable e) {
             return e.getMessage();
         }
-
-        return a + " / " + b + " = " + divide;
+        return employee;
+    }
+    @GetMapping(path = "/remove")
+    public Object removeEmployee(
+            @RequestParam(value = "firstName") String firstName,
+            @RequestParam(value = "lastName") String lastName) {
+        Employee employee = null;
+        try {
+            employee = employeeService.removeEmployee(firstName, lastName);
+        } catch (Throwable e) {
+            return e.getMessage();
+        }
+        return employee;
+    }
+    @GetMapping(path = "/find")
+    public Object findEmployee(
+            @RequestParam(value = "firstName") String firstName,
+            @RequestParam(value = "lastName") String lastName) {
+        Employee employee = null;
+        try {
+            employee = employeeService.findEmployee(firstName, lastName);
+        } catch (Throwable e) {
+            return e.getMessage();
+        }
+        return employee;
     }
 
+    @GetMapping(path = "/print")
+    public Object printEmployees() {
+        List<Employee> employees = null;
+        try {
+            employees = employeeService.getEmployees();
+        } catch (Throwable e) {
+            return e.getMessage();
+        }
+        return employees;
+    }
 }
