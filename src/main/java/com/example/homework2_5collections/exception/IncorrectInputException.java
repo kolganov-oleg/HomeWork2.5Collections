@@ -1,4 +1,4 @@
-package com.example.homework_stream.exeption;
+package com.example.homework2_5collections.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

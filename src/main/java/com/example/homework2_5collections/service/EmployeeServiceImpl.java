@@ -2,7 +2,7 @@ package com.example.homework2_5collections.service;
 
 import com.example.homework2_5collections.exception.EmployeeNotFoundException;
 import com.example.homework2_5collections.model.Employee;
-import com.example.homework_stream.exeption.IncorrectInputException;
+import com.example.homework2_5collections.exception.IncorrectInputException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.isAlpha;
 
 @Service
-public abstract class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final List<Employee> employees;
 
@@ -101,5 +101,20 @@ public abstract class EmployeeServiceImpl implements EmployeeService {
         employees.add(new Employee("Федя", "Кляйн", 15000, 3));
         employees.add(new Employee("Ирина", "Одинокая", 40000, 1));
         return employees;
+    }
+
+    @Override
+    public Employee addEmployee(String firstName, String lastName, int salary, int department) {
+        return null;
+    }
+
+    @Override
+    public Employee removeEmployee(String firstName, String lastName) {
+        return null;
+    }
+
+    @Override
+    public Employee findEmployee(String firstName, String lastName) {
+        return null;
     }
 }
